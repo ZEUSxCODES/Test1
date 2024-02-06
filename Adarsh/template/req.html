@@ -11,6 +11,8 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Delius" rel="stylesheet">
     <link href="https://cdn.plyr.io/3.6.9/plyr.css" rel="stylesheet">
+    <script src="https://cdn.plyr.io/3.6.9/plyr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/plyr-vast-plugin@1.1.0/dist/plyr.vast.min.js"></script>
     
     <style>
         marquee {
@@ -41,8 +43,6 @@
     <div class="container">
         <video id="player" playsinline controls>
             <source src="%s" type="video/mp4">
-            <!-- Add VAST link here -->
-            <a href="https://www.videosprofitnetwork.com/watch.xml?key=4f9590acade58628f134bf5c19badaf6">Click to view ad</a>
         </video>
     </div>
 
@@ -63,28 +63,27 @@
         </center>
     </footer>
 
-    <script src="https://cdn.plyr.io/3.6.9/plyr.js"></script>
     <script>
-        const controls = [
-            'play-large',
-            'rewind',
-            'play', 
-            'fast-forward', 
-            'progress', 
-            'current-time',
-            'duration',
-            'mute',
-            'volume',
-            'captions',
-            'settings',
-            'pip',
-            'airplay',
-            'download',
-            'fullscreen'
-        ];
         document.addEventListener('DOMContentLoaded', () => {
-            const player = Plyr.setup('#player', { controls });
+            const player = new Plyr('#player', {
+                controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
+                plyr: {
+                    fullscreen: {
+                        enabled: true,
+                        fallback: true,
+                        iosNative: true
+                    }
+                }
+            });
+            player.plyr.vast = {
+                // Configuration options
+                adTagUrl: 'https://www.videosprofitnetwork.com/watch.xml?key=4f9590acade58628f134bf5c19badaf6',
+                skipButton: 'skip-button',
+                skipButtonDelay: 10,
+                disableInitialLoad: false,
+                vpaidFlashLoaderPath: 'vpaid.swf'
+            };
         });
     </script>
 </body>
-	</html>
+</html>
